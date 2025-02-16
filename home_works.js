@@ -18,15 +18,123 @@ gmailButton.onclick = () => {
 
 const parentBlock = document.querySelector('.parent_block')
 const childBlock = document.querySelector('.child_block')
-const maxWight = parentBlock.offsetWidth  - childBlock.offsetWidth
+const maxWight = parentBlock.clientWidth  - childBlock.clientWidth
+const maxHeigth = parentBlock.clientHeight - childBlock.clientHeight
 
 let x = 0
+let y = 0
 
-function Move() {
-    if(x <  maxWight) {
-        childBlock.style.left = `${x}px`
+const move = () => {
+    if(x < maxWight) {
         x++
+        childBlock.style.left = `${x}px`
+        requestAnimationFrame(move)
+    } else if (x >= maxWight && y <= maxHeigth) {
+        y++
+        childBlock.style.top = `${y}px`
+        requestAnimationFrame(move)
     }
-    requestAnimationFrame(Move)
+    else if (x > 0 && y > 0) {
+        x--
+        childBlock.style.left = `${x}px`
+        requestAnimationFrame(move)
+    }
 }
-Move()
+move()
+
+const hourElement = document.querySelector('#hour')
+const minuteElement = document.querySelector('#minute')
+const secondElement = document.querySelector('#minutes')
+const millisecondElement = document.querySelector('#seconds')
+
+const btnStart = document.querySelector('#start')
+const btnStop = document.querySelector('#stop')
+const btnReset = document.querySelector('#reset')
+
+btnStart.addEventListener('click', () => {
+    clearInterval(interval)
+    interval = setInterval(startTimer, 10)
+})
+
+btnStop.addEventListener('click', () => {
+    clearInterval(interval)
+})
+btnReset.addEventListener('click', () => {
+    clearInterval(interval)
+        hour = 0o0,
+        minute = 0o0,
+        minutes = 0o0,
+        seconds = 0o0,
+            hourElement.textContent = '00'
+            minuteElement.textContent = '00'
+            secondElement.textContent = '00'
+            millisecondElement.textContent = '00'
+})
+
+let hour = 0o0,
+    minute = 0o0,
+    minutes = 0o0,
+    seconds = 0o0,
+    interval
+
+function startTimer() {
+    seconds++
+    if (seconds < 9) {
+        millisecondElement.innerText = '0' + seconds
+    }
+    if (seconds > 9) {
+        millisecondElement.innerText = seconds
+    }
+    if (seconds > 99) {
+        minutes++
+        secondElement.innerText = '0' + minutes
+        seconds = 0
+        millisecondElement.innerText = '0' + seconds
+    }
+    if (minutes < 9) {
+        secondElement.innerText = '0' + minutes
+    }
+    if (minutes > 9) {
+        secondElement.innerText = minutes
+    }
+    if (minutes > 59) {
+        minute++
+        minuteElement.innerText = '0' + minute
+        minutes = 0
+        secondElement.innerText = minutes
+    }
+    if (minute < 9) {
+        minuteElement.innerText = '0' + minute
+    }
+    if (minute > 9) {
+        minuteElement.innerText = minute
+    }
+    if (minute > 59) {
+        hour++
+        hourElement.innerText = '0' + hour
+        minute = 0
+        minuteElement.innerText = minute
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
